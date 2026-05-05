@@ -5,11 +5,6 @@ import { useScrollReveal } from '@/composables/useScrollReveal'
 const container = ref(null)
 useScrollReveal(container)
 
-const stats = [
-  { num: '8+',   label: 'lat doświadczenia' },
-  { num: '500+', label: 'zadowolonych klientek' },
-  { num: '12',   label: 'certyfikatów' },
-]
 </script>
 
 <template>
@@ -19,13 +14,7 @@ const stats = [
       <!-- Image -->
       <div class="fade-up relative">
         <div class="relative rounded-lg overflow-hidden">
-          <svg viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="400" height="500" rx="8" fill="#EAD9C8"/>
-            <circle cx="200" cy="180" r="60" fill="#E0CDB8"/>
-            <path d="M120 340 Q200 280 280 340 L280 500 L120 500 Z" fill="#E0CDB8"/>
-            <text x="200" y="430" text-anchor="middle" fill="#B8915A"
-                  font-family="Cormorant Garamond, serif" font-size="14" letter-spacing="2">ZDJĘCIE</text>
-          </svg>
+          <img src="@/assets/portret.jpg" alt="Małgorzata Kozłowska" class="w-full h-full object-cover" />
         </div>
         <!-- Offset gold frame -->
         <div class="img-frame"></div>
@@ -34,25 +23,23 @@ const stats = [
       <!-- Text -->
       <div class="fade-up">
         <p class="section-label">O mnie</p>
-        <h2 class="section-heading">Pasja do piękna<br>i harmonii</h2>
+        <h2 class="section-heading">Małgorzata Kozłowska</h2>
         <div class="divider-line"></div>
         <p class="section-desc">
-          Jestem certyfikowaną specjalistką masażu Kobido — starożytnej japońskiej techniki,
-          która łączy głęboki masaż twarzy z holistycznym podejściem do urody i zdrowia.
+          Nazywam się Małgorzata Kozłowska. Jako magister kosmetologii stworzyłam Harmonię –
+          kameralną przestrzeń, w której czas zwalnia, a Ty jesteś w centrum uwagi.
         </p>
         <p class="section-desc mt-4">
-          Moje podejście opiera się na szacunku do naturalnego piękna i wierze, że prawdziwa
-          harmonia zaczyna się od wewnątrz. Każdy zabieg to rytuał — nie tylko dla ciała,
-          ale i dla duszy.
+          To miejsce powstało z potrzeby ciszy i autentycznego piękna. Specjalizuję się
+          w masażu Kobido oraz rytuałach pielęgnacyjnych, które łączą skuteczność z głębokim
+          odprężeniem. Wierzę, że najlepsze efekty przynosi dotyk pełen uważności i spokojna,
+          kobieca atmosfera.
+        </p>
+        <p class="section-desc mt-4">
+          Zapraszam Cię do świata, w którym odetchniesz od codzienności, a o Twoją skórę
+          zadbam w atmosferze pełnego relaksu i zaufania.
         </p>
 
-        <!-- Stats -->
-        <div class="flex flex-wrap gap-10 mt-8">
-          <div v-for="stat in stats" :key="stat.label" class="flex flex-col">
-            <span class="font-display font-light text-gold" style="font-size: 2.2rem;">{{ stat.num }}</span>
-            <span class="text-sm text-brown-muted mt-1">{{ stat.label }}</span>
-          </div>
-        </div>
       </div>
 
     </div>
