@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(npm install *)",
+      "Bash(Start-Sleep 3)",
+      "Bash(Get-Content \"C:\\\\Users\\\\damia\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\E--harmonia\\\\70d68701-4be8-4c01-880d-93c89046e06b\\\\tasks\\\\bked57tva.output\")",
+      "PowerShell(& \"C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe\" --headless --screenshot=\"C:\\\\temp\\\\harmonia_hero.png\" --window-size=1400,900 --hide-scrollbars --virtual-time-budget=5000 \"http://localhost:5175/\" 2>&1)",
+      "PowerShell($jsFlag = '--run-all-compositor-stages-before-draw')"
+    ]
+  }
+}

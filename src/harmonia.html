@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harmonia — Kobido & Masaż</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #D4A76A;
+  --gold-deep: #B8915A;
+  --gold-light: #E0BE8A;
+  --cream: #FDF8F2;
+  --warm-white: #FFFBF5;
+  --beige-light: #F5EDE3;
+  --sand: #EAD9C8;
+  --warm-sand: #E0CDB8;
+  --rose-beige: #C9A898;
+  --bronze: #A67C5B;
+  --brown-deep: #3D2B1F;
+  --brown-warm: #6B5244;
+  --brown-muted: #8C7B6B;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Lora', Georgia, serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: var(--font-body); color: var(--brown-deep); background: var(--warm-white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+.fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.fade-in { opacity: 0; transition: opacity 1s ease; }
+.fade-in.visible { opacity: 1; }
+
+::selection { background: var(--gold-light); color: var(--brown-deep); }
+
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+@keyframes dash { to { stroke-dashoffset: -40; } }
+@keyframes fadeInUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+
+.btn-gold {
+  display: inline-block;
+  padding: 14px 36px;
+  background: var(--gold);
+  color: var(--warm-white);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn-gold:hover { background: var(--gold-deep); transform: translateY(-2px); }
+.btn-gold::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+.btn-gold:hover::after { left: 100%; }
+
+.btn-outline {
+  display: inline-block;
+  padding: 12px 32px;
+  background: transparent;
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: 1px solid var(--gold);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-outline:hover { background: var(--gold); color: var(--warm-white); }
+
+.section-pad { padding: 100px 24px; }
+@media (max-width: 768px) { .section-pad { padding: 64px 16px; } }
+
+.container { max-width: 1200px; margin: 0 auto; }
+
+.section-label {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.section-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 300;
+  color: var(--brown-deep);
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+.section-desc {
+  font-size: 1rem;
+  color: var(--brown-warm);
+  line-height: 1.8;
+  max-width: 600px;
+}
+
+.divider-line {
+  width: 60px;
+  height: 1px;
+  background: var(--gold);
+  margin: 24px 0;
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- NAV -->
+  <nav :class="['nav-fixed', { scrolled: navScrolled }]">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">HARMONIA</a>
+      <div class="nav-links" :class="{ open: menuOpen }">
+        <a v-for="link in navLinks" :key="link.id" :href="'#' + link.id" @click="menuOpen = false">{{ link.label }}</a>
+        <a href="#kontakt" class="btn-outline nav-cta" @click="menuOpen = false">Umów wizytę</a>
+      </div>
+      <button class="hamburger" :class="{ active: menuOpen }" @click="menuOpen = !menuOpen" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero" class="hero-section">
+    <div class="hero-bg">
+      <svg class="hero-ornament" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="300" cy="300" r="250" stroke="#D4A76A" stroke-width="0.5" opacity="0.15"/>
+        <circle cx="300" cy="300" r="200" stroke="#D4A76A" stroke-width="0.3" opacity="0.1"/>
+        <circle cx="300" cy="300" r="150" stroke="#D4A76A" stroke-width="0.3" opacity="0.08"/>
+        <path d="M300 50 Q320 150 300 300 Q280 150 300 50" stroke="#D4A76A" stroke-width="0.4" opacity="0.12"/>
+        <path d="M550 300 Q450 320 300 300 Q450 280 550 300" stroke="#D4A76A" stroke-width="0.4" opacity="0.12"/>
+        <path d="M300 550 Q280 450 300 300 Q320 450 300 550" stroke="#D4A76A" stroke-width="0.4" opacity="0.12"/>
+        <path d="M50 300 Q150 280 300 300 Q150 320 50 300" stroke="#D4A76A" stroke-width="0.4" opacity="0.12"/>
+      </svg>
+    </div>
+    <div class="hero-content">
+      <p class="hero-label fade-up">Małgorzata Kozłowska</p>
+      <h1 class="hero-title fade-up" style="animation-delay:0.15s">HARMONIA</h1>
+      <div class="hero-divider fade-up" style="animation-delay:0.3s">
+        <svg width="120" height="2" viewBox="0 0 120 2"><line x1="0" y1="1" x2="120" y2="1" stroke="#D4A76A" stroke-width="1"/></svg>
+      </div>
+      <p class="hero-subtitle fade-up" style="animation-delay:0.4s">Kobido · Masaż · Relaks</p>
+      <p class="hero-desc fade-up" style="animation-delay:0.5s">Odkryj sztukę japońskiego masażu twarzy<br>i odnajdź wewnętrzny spokój</p>
+      <div class="hero-cta fade-up" style="animation-delay:0.65s">
+        <a href="#uslugi" class="btn-gold">Poznaj ofertę</a>
+      </div>
+    </div>
+    <div class="hero-scroll fade-in" style="animation-delay:1.2s">
+      <svg width="24" height="40" viewBox="0 0 24 40" style="animation: float 2.5s ease-in-out infinite;">
+        <rect x="1" y="1" width="22" height="38" rx="11" fill="none" stroke="#D4A76A" stroke-width="1"/>
+        <circle cx="12" cy="12" r="2" fill="#D4A76A" opacity="0.6"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- O MNIE -->
+  <section id="o-mnie" class="section-pad" style="background: var(--cream);">
+    <div class="container about-grid">
+      <div class="about-image fade-up">
+        <div class="about-img-placeholder">
+          <svg viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="500" rx="8" fill="#EAD9C8"/>
+            <circle cx="200" cy="180" r="60" fill="#E0CDB8"/>
+            <path d="M120 340 Q200 280 280 340 L280 500 L120 500 Z" fill="#E0CDB8"/>
+            <text x="200" y="430" text-anchor="middle" fill="#B8915A" font-family="Cormorant Garamond, serif" font-size="14" letter-spacing="2">ZDJĘCIE</text>
+          </svg>
+          <div class="about-img-frame"></div>
+        </div>
+      </div>
+      <div class="about-text fade-up">
+        <p class="section-label">O mnie</p>
+        <h2 class="section-heading">Pasja do piękna<br>i harmonii</h2>
+        <div class="divider-line"></div>
+        <p class="section-desc">
+          Jestem certyfikowaną specjalistką masażu Kobido — starożytnej japońskiej techniki, 
+          która łączy głęboki masaż twarzy z holistycznym podejściem do urody i zdrowia.
+        </p>
+        <p class="section-desc" style="margin-top: 16px;">
+          Moje podejście opiera się na szacunku do naturalnego piękna i wierze, że prawdziwa 
+          harmonia zaczyna się od wewnątrz. Każdy zabieg to rytuał — nie tylko dla ciała, 
+          ale i dla duszy.
+        </p>
+        <div style="margin-top: 32px; display: flex; gap: 40px; flex-wrap: wrap;">
+          <div class="about-stat">
+            <span class="about-stat-num">8+</span>
+            <span class="about-stat-label">lat doświadczenia</span>
+          </div>
+          <div class="about-stat">
+            <span class="about-stat-num">500+</span>
+            <span class="about-stat-label">zadowolonych klientek</span>
+          </div>
+          <div class="about-stat">
+            <span class="about-stat-num">12</span>
+            <span class="about-stat-label">certyfikatów</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USŁUGI -->
+  <section id="uslugi" class="section-pad" style="background: var(--warm-white);">
+    <div class="container" style="text-align: center;">
+      <p class="section-label">Usługi</p>
+      <h2 class="section-heading">Rytuały piękna i relaksu</h2>
+      <p class="section-desc" style="margin: 0 auto 60px;">
+        Każdy zabieg jest indywidualnie dopasowany do Twoich potrzeb, 
+        łącząc tradycyjne techniki z nowoczesnymi metodami pielęgnacji.
+      </p>
+      <div class="services-grid">
+        <div v-for="(service, i) in services" :key="service.title" class="service-card fade-up" :style="{ animationDelay: (i * 0.15) + 's' }">
+          <div class="service-icon" v-html="service.icon"></div>
+          <h3 class="service-title">{{ service.title }}</h3>
+          <p class="service-desc">{{ service.desc }}</p>
+          <div class="service-duration">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#D4A76A" stroke-width="0.8"/><path d="M7 3.5V7.5L9.5 9" stroke="#D4A76A" stroke-width="0.8" stroke-linecap="round"/></svg>
+            <span>{{ service.duration }}</span>
+          </div>
+          <a href="#kontakt" class="service-link">Umów zabieg →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KOBIDO FEATURE -->
+  <section id="kobido" class="section-pad" style="background: var(--beige-light);">
+    <div class="container kobido-grid">
+      <div class="kobido-text fade-up">
+        <p class="section-label">Kobido</p>
+        <h2 class="section-heading">Japoński masaż twarzy</h2>
+        <div class="divider-line"></div>
+        <p class="section-desc">
+          Kobido, znany jako "starożytna droga piękna", to tradycyjna japońska technika 
+          masażu twarzy licząca sobie ponad 500 lat. To jeden z najskuteczniejszych 
+          naturalnych zabiegów liftingujących na świecie.
+        </p>
+        <ul class="kobido-benefits">
+          <li v-for="benefit in kobidoBenefits" :key="benefit">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#D4A76A" stroke-width="0.8"/><path d="M5 8L7 10L11 6" stroke="#D4A76A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>{{ benefit }}</span>
+          </li>
+        </ul>
+        <a href="#kontakt" class="btn-gold" style="margin-top: 32px;">Zarezerwuj Kobido</a>
+      </div>
+      <div class="kobido-visual fade-up">
+        <div class="kobido-img-placeholder">
+          <svg viewBox="0 0 400 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="480" rx="8" fill="#EAD9C8"/>
+            <circle cx="200" cy="200" r="80" fill="none" stroke="#D4A76A" stroke-width="0.5" stroke-dasharray="4 4">
+              <animateTransform attributeName="transform" type="rotate" values="0 200 200;360 200 200" dur="30s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="200" cy="200" r="50" fill="none" stroke="#D4A76A" stroke-width="0.3" opacity="0.5"/>
+            <text x="200" y="360" text-anchor="middle" fill="#B8915A" font-family="Cormorant Garamond, serif" font-size="14" letter-spacing="2">ZDJĘCIE ZABIEGU</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CENNIK -->
+  <section id="cennik" class="section-pad" style="background: var(--warm-white);">
+    <div class="container" style="text-align: center;">
+      <p class="section-label">Cennik</p>
+      <h2 class="section-heading">Inwestuj w siebie</h2>
+      <p class="section-desc" style="margin: 0 auto 60px;">
+        Każdy zabieg jest wyjątkowym doświadczeniem — zainwestuj czas w swoje piękno i zdrowie.
+      </p>
+      <div class="pricing-grid">
+        <div v-for="(item, i) in pricing" :key="item.name" class="pricing-card fade-up" :class="{ featured: item.featured }" :style="{ animationDelay: (i * 0.12) + 's' }">
+          <div v-if="item.featured" class="pricing-badge">Popularny</div>
+          <h3 class="pricing-name">{{ item.name }}</h3>
+          <p class="pricing-duration">{{ item.duration }}</p>
+          <div class="pricing-price">
+            <span class="pricing-amount">{{ item.price }}</span>
+            <span class="pricing-currency">PLN</span>
+          </div>
+          <ul class="pricing-includes">
+            <li v-for="inc in item.includes" :key="inc">{{ inc }}</li>
+          </ul>
+          <a href="#kontakt" class="btn-gold" style="width: 100%; text-align: center;">Rezerwuj</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPINIE -->
+  <section id="opinie" class="section-pad" style="background: var(--cream);">
+    <div class="container" style="text-align: center;">
+      <p class="section-label">Opinie</p>
+      <h2 class="section-heading">Co mówią klientki</h2>
+      <div class="testimonials-grid">
+        <div v-for="(t, i) in testimonials" :key="i" class="testimonial-card fade-up" :style="{ animationDelay: (i * 0.15) + 's' }">
+          <div class="testimonial-stars">
+            <svg v-for="s in 5" :key="s" width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.5L9.8 5.7L14.3 6.2L10.9 9.3L11.8 13.8L8 11.5L4.2 13.8L5.1 9.3L1.7 6.2L6.2 5.7Z" fill="#D4A76A"/></svg>
+          </div>
+          <p class="testimonial-text">„{{ t.text }}"</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">{{ t.initials }}</div>
+            <div>
+              <p class="testimonial-name">{{ t.name }}</p>
+              <p class="testimonial-role">{{ t.role }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONTAKT -->
+  <section id="kontakt" class="section-pad" style="background: var(--beige-light);">
+    <div class="container contact-grid">
+      <div class="contact-info fade-up">
+        <p class="section-label">Kontakt</p>
+        <h2 class="section-heading">Umów wizytę</h2>
+        <div class="divider-line"></div>
+        <p class="section-desc">
+          Zapraszam do kontaktu w celu umówienia wizyty 
+          lub zadania pytań dotyczących zabiegów.
+        </p>
+        <div class="contact-details">
+          <div class="contact-item">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 4H16C17.1 4 18 4.9 18 6V14C18 15.1 17.1 16 16 16H4C2.9 16 2 15.1 2 14V6C2 4.9 2.9 4 4 4Z" stroke="#D4A76A" stroke-width="1"/><path d="M18 6L10 11L2 6" stroke="#D4A76A" stroke-width="1"/></svg>
+            <span>kontakt@harmonia-beauty.pl</span>
+          </div>
+          <div class="contact-item">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M17 13.5C15.75 13.5 14.55 13.3 13.43 12.93C13.08 12.82 12.69 12.9 12.41 13.17L10.21 15.37C7.38 13.93 5.06 11.62 3.62 8.78L5.82 6.57C6.1 6.31 6.18 5.92 6.07 5.57C5.7 4.45 5.5 3.25 5.5 2C5.5 1.45 5.05 1 4.5 1H2C1.45 1 1 1.45 1 2C1 10.84 8.16 18 17 18C17.55 18 18 17.55 18 17V14.5C18 13.95 17.55 13.5 17 13.5Z" stroke="#D4A76A" stroke-width="1" fill="none"/></svg>
+            <span>+48 123 456 789</span>
+          </div>
+          <div class="contact-item">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M17 8.5C17 13.19 10 19 10 19C10 19 3 13.19 3 8.5C3 4.91 6.13 2 10 2C13.87 2 17 4.91 17 8.5Z" stroke="#D4A76A" stroke-width="1"/><circle cx="10" cy="8.5" r="2.5" stroke="#D4A76A" stroke-width="1"/></svg>
+            <span>ul. Piękna 15, Warszawa</span>
+          </div>
+        </div>
+        <div class="contact-hours">
+          <p class="contact-hours-title">Godziny otwarcia</p>
+          <p>Pon – Pt: 9:00 – 20:00</p>
+          <p>Sob: 10:00 – 16:00</p>
+          <p>Nd: zamknięte</p>
+        </div>
+      </div>
+      <div class="contact-form-wrap fade-up">
+        <div class="contact-form-card">
+          <h3 class="contact-form-title">Formularz kontaktowy</h3>
+          <div class="form-group">
+            <label>Imię i nazwisko</label>
+            <input type="text" v-model="form.name" placeholder="Anna Kowalska">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" v-model="form.email" placeholder="anna@email.com">
+          </div>
+          <div class="form-group">
+            <label>Telefon</label>
+            <input type="tel" v-model="form.phone" placeholder="+48 000 000 000">
+          </div>
+          <div class="form-group">
+            <label>Zainteresowanie</label>
+            <select v-model="form.service">
+              <option value="">Wybierz usługę...</option>
+              <option v-for="s in serviceOptions" :key="s" :value="s">{{ s }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Wiadomość</label>
+            <textarea v-model="form.message" rows="4" placeholder="Twoja wiadomość..."></textarea>
+          </div>
+          <button class="btn-gold" style="width: 100%; text-align: center;" @click="submitForm">Wyślij wiadomość</button>
+          <p v-if="formSent" style="text-align:center; margin-top:12px; color: var(--gold-deep); font-size:0.9rem;">Dziękuję! Wiadomość została wysłana.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer-section">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <p class="footer-logo">HARMONIA</p>
+        <p class="footer-tagline">Kobido · Masaż · Relaks</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="4" stroke="#D4A76A" stroke-width="1"/><circle cx="10" cy="10" r="4" stroke="#D4A76A" stroke-width="1"/><circle cx="14.5" cy="5.5" r="1" fill="#D4A76A"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M18 10C18 5.58 14.42 2 10 2C5.58 2 2 5.58 2 10C2 14 4.87 17.37 8.62 17.95V12.56H6.56V10H8.62V8.06C8.62 6.03 9.81 4.94 11.64 4.94C12.51 4.94 13.44 5.1 13.44 5.1V7.09H12.42C11.42 7.09 11.12 7.72 11.12 8.37V10H13.34L12.96 12.56H11.12V17.95C14.87 17.37 18 14 18 10Z" stroke="#D4A76A" stroke-width="1" fill="none"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <p class="footer-links-title">Nawigacja</p>
+        <a href="#o-mnie">O mnie</a>
+        <a href="#uslugi">Usługi</a>
+        <a href="#kobido">Kobido</a>
+        <a href="#cennik">Cennik</a>
+        <a href="#kontakt">Kontakt</a>
+      </div>
+      <div class="footer-links">
+        <p class="footer-links-title">Usługi</p>
+        <a href="#uslugi">Masaż Kobido</a>
+        <a href="#uslugi">Masaż relaksacyjny</a>
+        <a href="#uslugi">Pielęgnacja twarzy</a>
+        <a href="#uslugi">Rytuał japoński</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Harmonia — Małgorzata Kozłowska. Wszelkie prawa zastrzeżone.</p>
+    </div>
+  </footer>
+
+</div>
+
+<style>
+/* ===== NAV ===== */
+.nav-fixed {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  transition: all 0.4s ease;
+  background: transparent;
+}
+.nav-fixed.scrolled {
+  background: rgba(253, 248, 242, 0.95);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--sand);
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px;
+  transition: padding 0.3s ease;
+}
+.scrolled .nav-inner { padding: 14px 24px; }
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 6px;
+  color: var(--gold);
+  transition: color 0.3s;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 32px;
+}
+.nav-links a {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  color: var(--brown-warm);
+  transition: color 0.3s;
+  position: relative;
+}
+.nav-links a:not(.nav-cta)::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+  background: var(--gold); transition: width 0.3s;
+}
+.nav-links a:not(.nav-cta):hover::after { width: 100%; }
+.nav-links a:hover { color: var(--gold); }
+.nav-cta { padding: 8px 20px !important; font-size: 0.8rem !important; }
+.hamburger { display: none; width: 28px; height: 20px; position: relative; }
+.hamburger span {
+  display: block; width: 100%; height: 1.5px; background: var(--brown-warm);
+  position: absolute; left: 0; transition: all 0.3s ease;
+}
+.hamburger span:nth-child(1) { top: 0; }
+.hamburger span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.hamburger span:nth-child(3) { bottom: 0; }
+.hamburger.active span:nth-child(1) { top: 50%; transform: translateY(-50%) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { bottom: 50%; transform: translateY(50%) rotate(-45deg); }
+
+@media (max-width: 768px) {
+  .hamburger { display: block; }
+  .nav-links {
+    position: fixed; top: 0; right: -100%; width: 75%; max-width: 320px; height: 100vh;
+    background: var(--cream); flex-direction: column; justify-content: center;
+    gap: 28px; padding: 40px;
+    transition: right 0.4s ease;
+    box-shadow: -4px 0 20px rgba(0,0,0,0.08);
+  }
+  .nav-links.open { right: 0; }
+  .nav-links a { font-size: 1.1rem; }
+}
+
+/* ===== HERO ===== */
+.hero-section {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+  background: var(--warm-white);
+  padding: 100px 24px 40px;
+}
+.hero-bg {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 600px;
+  pointer-events: none;
+}
+.hero-ornament { width: 100%; height: 100%; }
+.hero-content { position: relative; text-align: center; z-index: 1; }
+.hero-label {
+  font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--brown-muted);
+  margin-bottom: 16px;
+  animation: fadeInUp 0.8s ease forwards;
+  opacity: 0;
+}
+.hero-title {
+  font-family: var(--font-display); font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 300; letter-spacing: 12px; color: var(--gold);
+  margin-bottom: 24px;
+  animation: fadeInUp 0.8s ease 0.15s forwards;
+  opacity: 0;
+}
+.hero-divider {
+  margin-bottom: 24px;
+  animation: fadeInUp 0.8s ease 0.3s forwards;
+  opacity: 0;
+}
+.hero-subtitle {
+  font-family: var(--font-display); font-size: 1.1rem; letter-spacing: 6px;
+  text-transform: uppercase; color: var(--brown-warm);
+  margin-bottom: 20px;
+  animation: fadeInUp 0.8s ease 0.4s forwards;
+  opacity: 0;
+}
+.hero-desc {
+  font-size: 1rem; color: var(--brown-muted); line-height: 1.8;
+  margin-bottom: 36px;
+  animation: fadeInUp 0.8s ease 0.5s forwards;
+  opacity: 0;
+}
+.hero-cta {
+  animation: fadeInUp 0.8s ease 0.65s forwards;
+  opacity: 0;
+}
+.hero-scroll {
+  position: absolute; bottom: 30px; left: 50%;
+  transform: translateX(-50%);
+  opacity: 0; animation: fadeInUp 1s ease 1.2s forwards;
+}
+
+/* ===== ABOUT ===== */
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+}
+@media (max-width: 768px) {
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+.about-img-placeholder {
+  position: relative; border-radius: 8px; overflow: hidden;
+}
+.about-img-frame {
+  position: absolute; top: 16px; left: 16px; right: -16px; bottom: -16px;
+  border: 1px solid var(--gold); border-radius: 8px;
+  z-index: -1;
+}
+.about-stat {
+  display: flex; flex-direction: column;
+}
+.about-stat-num {
+  font-family: var(--font-display); font-size: 2.2rem; font-weight: 300; color: var(--gold);
+}
+.about-stat-label {
+  font-size: 0.85rem; color: var(--brown-muted); margin-top: 4px;
+}
+
+/* ===== SERVICES ===== */
+.services-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px; text-align: left;
+}
+.service-card {
+  background: var(--cream); border-radius: 12px; padding: 40px 32px;
+  border: 1px solid transparent;
+  transition: all 0.4s ease;
+  position: relative; overflow: hidden;
+}
+.service-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--gold); transform: scaleX(0); transition: transform 0.4s ease;
+  transform-origin: left;
+}
+.service-card:hover { border-color: var(--sand); transform: translateY(-4px); }
+.service-card:hover::before { transform: scaleX(1); }
+.service-icon { margin-bottom: 20px; }
+.service-title {
+  font-family: var(--font-display); font-size: 1.4rem; font-weight: 400;
+  color: var(--brown-deep); margin-bottom: 12px;
+}
+.service-desc {
+  font-size: 0.9rem; color: var(--brown-muted); line-height: 1.7; margin-bottom: 20px;
+}
+.service-duration {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.85rem; color: var(--gold-deep); margin-bottom: 20px;
+}
+.service-link {
+  font-family: var(--font-display); font-size: 0.9rem; color: var(--gold);
+  letter-spacing: 1px; transition: color 0.3s;
+}
+.service-link:hover { color: var(--gold-deep); }
+
+/* ===== KOBIDO ===== */
+.kobido-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+}
+@media (max-width: 768px) {
+  .kobido-grid { grid-template-columns: 1fr; gap: 40px; }
+  .kobido-visual { order: -1; }
+}
+.kobido-benefits {
+  list-style: none; margin-top: 24px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.kobido-benefits li {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.95rem; color: var(--brown-warm);
+}
+.kobido-img-placeholder {
+  border-radius: 8px; overflow: hidden;
+}
+
+/* ===== PRICING ===== */
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px; text-align: left;
+}
+.pricing-card {
+  background: var(--cream); border-radius: 12px; padding: 36px 28px;
+  border: 1px solid var(--sand);
+  transition: all 0.3s ease; position: relative;
+  display: flex; flex-direction: column;
+}
+.pricing-card.featured {
+  border-color: var(--gold);
+  box-shadow: 0 8px 40px rgba(212, 167, 106, 0.12);
+}
+.pricing-badge {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--gold); color: var(--warm-white);
+  font-family: var(--font-display); font-size: 0.75rem;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 4px 16px; border-radius: 20px;
+}
+.pricing-name {
+  font-family: var(--font-display); font-size: 1.3rem; font-weight: 400;
+  color: var(--brown-deep); margin-bottom: 4px;
+}
+.pricing-duration {
+  font-size: 0.85rem; color: var(--brown-muted); margin-bottom: 20px;
+}
+.pricing-price {
+  display: flex; align-items: baseline; gap: 4px; margin-bottom: 24px;
+}
+.pricing-amount {
+  font-family: var(--font-display); font-size: 2.5rem; font-weight: 300; color: var(--gold);
+}
+.pricing-currency {
+  font-size: 0.9rem; color: var(--brown-muted);
+}
+.pricing-includes {
+  list-style: none; margin-bottom: 28px; flex: 1;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.pricing-includes li {
+  font-size: 0.88rem; color: var(--brown-warm);
+  padding-left: 20px; position: relative;
+}
+.pricing-includes li::before {
+  content: ''; position: absolute; left: 0; top: 8px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold-light);
+}
+
+/* ===== TESTIMONIALS ===== */
+.testimonials-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px; text-align: left; margin-top: 48px;
+}
+.testimonial-card {
+  background: var(--warm-white); border-radius: 12px; padding: 32px;
+  border: 1px solid var(--sand);
+}
+.testimonial-stars { display: flex; gap: 2px; margin-bottom: 16px; }
+.testimonial-text {
+  font-size: 0.95rem; color: var(--brown-warm); line-height: 1.7;
+  font-style: italic; margin-bottom: 20px;
+}
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.testimonial-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--sand); display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 0.85rem; color: var(--gold-deep);
+  font-weight: 500;
+}
+.testimonial-name {
+  font-family: var(--font-display); font-size: 0.95rem; color: var(--brown-deep); font-weight: 500;
+}
+.testimonial-role { font-size: 0.8rem; color: var(--brown-muted); margin-top: 2px; }
+
+/* ===== CONTACT ===== */
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;
+}
+@media (max-width: 768px) {
+  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+.contact-details { margin-top: 32px; display: flex; flex-direction: column; gap: 16px; }
+.contact-item {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 0.95rem; color: var(--brown-warm);
+}
+.contact-hours {
+  margin-top: 32px; padding: 20px; background: var(--cream);
+  border-radius: 8px; border: 1px solid var(--sand);
+}
+.contact-hours-title {
+  font-family: var(--font-display); font-size: 1rem; font-weight: 500;
+  color: var(--brown-deep); margin-bottom: 8px;
+}
+.contact-hours p { font-size: 0.9rem; color: var(--brown-muted); margin-top: 4px; }
+.contact-form-card {
+  background: var(--warm-white); border-radius: 12px; padding: 40px;
+  border: 1px solid var(--sand);
+}
+.contact-form-title {
+  font-family: var(--font-display); font-size: 1.3rem; font-weight: 400;
+  color: var(--brown-deep); margin-bottom: 28px;
+}
+.form-group { margin-bottom: 20px; }
+.form-group label {
+  display: block; font-size: 0.85rem; color: var(--brown-muted);
+  margin-bottom: 6px; letter-spacing: 0.5px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%; padding: 12px 16px;
+  border: 1px solid var(--sand); border-radius: 6px;
+  background: var(--cream); color: var(--brown-deep);
+  font-family: var(--font-body); font-size: 0.95rem;
+  transition: border-color 0.3s;
+  outline: none;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--gold);
+}
+.form-group textarea { resize: vertical; }
+.form-group select { cursor: pointer; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%238C7B6B' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center;
+  padding-right: 36px;
+}
+
+/* ===== FOOTER ===== */
+.footer-section {
+  background: var(--brown-deep); color: var(--sand); padding: 60px 24px 0;
+}
+.footer-inner {
+  display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+  padding-bottom: 40px; border-bottom: 1px solid rgba(212,167,106,0.15);
+}
+@media (max-width: 768px) {
+  .footer-inner { grid-template-columns: 1fr; }
+}
+.footer-logo {
+  font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 6px;
+  color: var(--gold); margin-bottom: 8px;
+}
+.footer-tagline {
+  font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 3px;
+  color: var(--brown-muted); margin-bottom: 20px;
+}
+.footer-social { display: flex; gap: 12px; }
+.footer-social a { opacity: 0.7; transition: opacity 0.3s; }
+.footer-social a:hover { opacity: 1; }
+.footer-links { display: flex; flex-direction: column; gap: 10px; }
+.footer-links-title {
+  font-family: var(--font-display); font-size: 0.9rem; font-weight: 500;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light);
+  margin-bottom: 4px;
+}
+.footer-links a {
+  font-size: 0.88rem; color: var(--brown-muted); transition: color 0.3s;
+}
+.footer-links a:hover { color: var(--gold); }
+.footer-bottom {
+  text-align: center; padding: 20px 0;
+  font-size: 0.8rem; color: var(--brown-muted);
+}
+</style>
+
+<script>
+const { createApp, ref, onMounted, onUnmounted } = Vue;
+
+createApp({
+  setup() {
+    // === NAV STATE (local) ===
+    const menuOpen = ref(false);
+    const navScrolled = ref(false);
+    const navLinks = [
+      { id: 'o-mnie', label: 'O mnie' },
+      { id: 'uslugi', label: 'Usługi' },
+      { id: 'kobido', label: 'Kobido' },
+      { id: 'cennik', label: 'Cennik' },
+      { id: 'opinie', label: 'Opinie' },
+    ];
+
+    const handleScroll = () => {
+      navScrolled.value = window.scrollY > 50;
+    };
+
+    // === SERVICES DATA ===
+    const services = [
+      {
+        title: 'Masaż Kobido',
+        desc: 'Tradycyjny japoński masaż twarzy, który stymuluje krążenie, modeluje owal twarzy i przywraca naturalny blask skóry.',
+        duration: '60 – 90 min',
+        icon: '<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="18" r="10" stroke="#D4A76A" stroke-width="1"/><path d="M14 38C14 32.48 18.48 28 24 28C29.52 28 34 32.48 34 38" stroke="#D4A76A" stroke-width="1" stroke-linecap="round"/><path d="M20 16C20 16 22 18 24 18C26 18 28 16 28 16" stroke="#D4A76A" stroke-width="0.8" stroke-linecap="round"/></svg>'
+      },
+      {
+        title: 'Masaż relaksacyjny',
+        desc: 'Głęboki masaż ciała z użyciem naturalnych olejków eterycznych. Redukcja napięcia, stres ustępuje miejsca spokojowi.',
+        duration: '60 – 120 min',
+        icon: '<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M24 6C24 6 12 14 12 26C12 32.63 17.37 38 24 38C30.63 38 36 32.63 36 26C36 14 24 6 24 6Z" stroke="#D4A76A" stroke-width="1"/><path d="M24 18V30" stroke="#D4A76A" stroke-width="0.8"/><path d="M24 24C24 24 20 20 18 22" stroke="#D4A76A" stroke-width="0.8" stroke-linecap="round"/></svg>'
+      },
+      {
+        title: 'Pielęgnacja twarzy',
+        desc: 'Kompleksowy rytuał pielęgnacyjny z maseczkami, serum i masażem — dopasowany do Twojego typu skóry.',
+        duration: '45 – 75 min',
+        icon: '<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="14" y="8" width="20" height="32" rx="10" stroke="#D4A76A" stroke-width="1"/><circle cx="24" cy="20" r="4" stroke="#D4A76A" stroke-width="0.8"/><path d="M20 30H28" stroke="#D4A76A" stroke-width="0.8" stroke-linecap="round"/></svg>'
+      },
+      {
+        title: 'Rytuał japoński',
+        desc: 'Połączenie masażu Kobido, aromaterapii i ceremonii herbacianej. Pełne doświadczenie harmonii ciała i ducha.',
+        duration: '120 min',
+        icon: '<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="16" stroke="#D4A76A" stroke-width="0.8"/><circle cx="24" cy="24" r="8" stroke="#D4A76A" stroke-width="0.5"/><path d="M24 8V16" stroke="#D4A76A" stroke-width="0.5"/><path d="M24 32V40" stroke="#D4A76A" stroke-width="0.5"/><path d="M8 24H16" stroke="#D4A76A" stroke-width="0.5"/><path d="M32 24H40" stroke="#D4A76A" stroke-width="0.5"/></svg>'
+      }
+    ];
+
+    // === KOBIDO BENEFITS ===
+    const kobidoBenefits = [
+      'Naturalny lifting bez użycia igły',
+      'Poprawa krążenia i napięcia skóry',
+      'Redukcja zmarszczek i obrzęków',
+      'Modelowanie owalu twarzy',
+      'Głębokie odprężenie i redukcja stresu',
+      'Stymulacja produkcji kolagenu',
+    ];
+
+    // === PRICING DATA ===
+    const pricing = [
+      {
+        name: 'Masaż relaksacyjny',
+        duration: '60 minut',
+        price: '180',
+        featured: false,
+        includes: ['Masaż klasyczny całego ciała', 'Naturalne olejki eteryczne', 'Relaksacyjna atmosfera']
+      },
+      {
+        name: 'Masaż Kobido',
+        duration: '90 minut',
+        price: '280',
+        featured: true,
+        includes: ['Pełny masaż Kobido twarzy', 'Oczyszczanie i tonizowanie', 'Maseczka nawilżająca', 'Masaż szyi i dekoltu']
+      },
+      {
+        name: 'Rytuał japoński',
+        duration: '120 minut',
+        price: '420',
+        featured: false,
+        includes: ['Ceremonia herbaciana', 'Masaż Kobido premium', 'Aromaterapia', 'Masaż relaksacyjny ciała', 'Maska kolagenowa']
+      }
+    ];
+
+    // === TESTIMONIALS DATA ===
+    const testimonials = [
+      {
+        text: 'Po pierwszym masażu Kobido moja skóra wyglądała jak po profesjonalnym zabiegu medycyny estetycznej. Jestem zachwycona wynikami!',
+        name: 'Katarzyna W.',
+        initials: 'KW',
+        role: 'Stała klientka'
+      },
+      {
+        text: 'Rytuał japoński to absolutnie wyjątkowe doświadczenie. Małgorzata tworzy atmosferę, w której naprawdę można się odprężyć.',
+        name: 'Joanna M.',
+        initials: 'JM',
+        role: 'Klientka od 2 lat'
+      },
+      {
+        text: 'Profesjonalizm na najwyższym poziomie. Każdy zabieg jest dopasowany indywidualnie. Polecam z całego serca!',
+        name: 'Anna S.',
+        initials: 'AS',
+        role: 'Klientka VIP'
+      }
+    ];
+
+    // === CONTACT FORM STATE (local) ===
+    const form = ref({
+      name: '', email: '', phone: '', service: '', message: ''
+    });
+    const formSent = ref(false);
+    const serviceOptions = [
+      'Masaż Kobido', 'Masaż relaksacyjny', 'Pielęgnacja twarzy', 'Rytuał japoński', 'Inny'
+    ];
+    const submitForm = () => {
+      formSent.value = true;
+      setTimeout(() => {
+        form.value = { name: '', email: '', phone: '', service: '', message: '' };
+        formSent.value = false;
+      }, 3000);
+    };
+
+    // === INTERSECTION OBSERVER (scroll animations) ===
+    let observer;
+    onMounted(() => {
+      window.addEventListener('scroll', handleScroll);
+      handleScroll();
+
+      observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+      document.querySelectorAll('.fade-up, .fade-in').forEach(el => {
+        observer.observe(el);
+      });
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener('scroll', handleScroll);
+      if (observer) observer.disconnect();
+    });
+
+    return {
+      menuOpen, navScrolled, navLinks,
+      services, kobidoBenefits, pricing, testimonials,
+      form, formSent, serviceOptions, submitForm
+    };
+  }
+}).mount('#app');
+</script>
+</body>
+</html>
