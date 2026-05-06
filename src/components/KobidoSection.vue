@@ -38,7 +38,7 @@ const healthEffects = [
         <!-- Visual / photo -->
         <div class="fade-up md:order-none order-first">
           <div class="rounded-lg overflow-hidden">
-            <img :src="kobidoImg" alt="Masaż Kobido" class="w-full h-full object-cover" />
+            <img :src="kobidoImg" alt="Masaż Kobido Tomaszów Mazowiecki — Harmonia Małgorzata Kozłowska" class="w-full h-full object-cover" />
           </div>
         </div>
 
