@@ -41,8 +41,27 @@ const contactItems = [
             {{ item.label }}
           </div>
         </div>
+
+        <a
+          href="https://booksy.com/pl-pl/160092_harmonia-malgorzata-kozlowska_salon-kosmetyczny_25178_tomaszow-mazowiecki#ba_s=vl_1"
+          target="_blank"
+          rel="noopener"
+          class="booksy-btn mt-8 inline-flex items-center gap-3"
+        >
+          <svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="#1FAB89"/>
+            <path d="M12 8h5v13.2c1.2-1.4 2.9-2.2 4.8-2.2 4.2 0 7.2 3.3 7.2 7.5S26 34 21.8 34c-2 0-3.8-.9-5-2.3V33.5H12V8zm5 18.5c0 2.3 1.7 4 3.9 4s3.9-1.7 3.9-4-1.7-4-3.9-4-3.9 1.7-3.9 4z" fill="white"/>
+          </svg>
+          <span>Zarezerwuj online przez <strong>Booksy</strong></span>
+        </a>
       </div>
 
     </div>
   </section>
 </template>
+
+<style scoped>
+.booksy-btn {
+  @apply text-brown-warm text-[0.95rem] border border-sand rounded-xl px-5 py-3 transition-all duration-300 hover:border-[#1FAB89] hover:text-[#1FAB89];
+}
+</style>

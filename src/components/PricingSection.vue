@@ -5,27 +5,63 @@ import { useScrollReveal } from '@/composables/useScrollReveal'
 const container = ref(null)
 useScrollReveal(container)
 
-const pricing = [
+const categories = [
   {
-    name: 'Masaż relaksacyjny',
-    duration: '60 minut',
-    price: '180',
-    featured: false,
-    includes: ['Masaż klasyczny całego ciała', 'Naturalne olejki eteryczne', 'Relaksacyjna atmosfera'],
+    name: 'Konsultacje i zabiegi',
+    services: [
+      { name: 'Konsultacja & Beauty Plan (PDF)', duration: '60 min', price: '150' },
+      { name: 'Zabieg dobrany do potrzeb skóry', duration: '1h 30min', price: '260' },
+      { name: 'Zabieg dobrany do potrzeb skóry (twarz + szyja + dekolt)', duration: '1h 45min', price: '340' },
+      { name: 'Indywidualnie dobrany peeling chemiczny', duration: '45 min', price: '150' },
+      { name: 'Indywidualnie dobrany peeling chemiczny (twarz + szyja + dekolt)', duration: '1h 30min', price: '230' },
+    ],
   },
   {
-    name: 'Masaż Kobido',
-    duration: '90 minut',
-    price: '280',
+    name: 'Manualne terapie twarzy',
     featured: true,
-    includes: ['Pełny masaż Kobido twarzy', 'Oczyszczanie i tonizowanie', 'Maseczka nawilżająca', 'Masaż szyi i dekoltu'],
+    services: [
+      { name: 'Masaż KOBIDO', duration: '1h 40min', price: '220' },
+      { name: 'Masaż KOBIDO & kinesiotaping', duration: '2h', price: '250' },
+      { name: 'Facecupping Pro & Kinesiotaping', duration: '1h 30min', price: '230' },
+    ],
   },
   {
-    name: 'Rytuał japoński',
-    duration: '120 minut',
-    price: '420',
-    featured: false,
-    includes: ['Ceremonia herbaciana', 'Masaż Kobido premium', 'Aromaterapia', 'Masaż relaksacyjny ciała', 'Maska kolagenowa'],
+    name: 'Rytuały KOBIDO & Pielęgnacja',
+    services: [
+      { name: 'KOBIDO Rozświetlenie', duration: '2h', price: '250' },
+      { name: 'KOBIDO & Peeling chemiczny', duration: '2h 10min', price: '300' },
+      { name: 'Rytuał Kobido z ampułką, maską i presoterapią nóg', duration: '2h', price: '280' },
+      { name: 'Masaż KOBIDO & GABA&NANA Neuro Lift', duration: '2h 15min', price: '350' },
+      { name: 'Masaż KOBIDO & Nano Needles', duration: '2h 30min', price: '450' },
+    ],
+  },
+  {
+    name: 'Oczyszczanie',
+    services: [
+      { name: 'Peeling Kawitacyjny & Odżywienie', duration: '1h', price: '190' },
+      { name: 'Peeling Kawitacyjny & Odżywienie (twarz + szyja + dekolt)', duration: '1h 15min', price: '270' },
+      { name: 'Peeling Kawitacyjny & Masaż relaksacyjny', duration: '1h 30min', price: '250' },
+      { name: 'Oczyszczanie wodorowe PODSTAWOWE', duration: '1h 20min', price: '220' },
+      { name: 'Oczyszczanie wodorowe PODSTAWOWE (twarz + szyja + dekolt)', duration: '1h 30min', price: '300' },
+      { name: 'Oczyszczanie wodorowe ROZSZERZONE', duration: '2h', price: '320' },
+      { name: 'Oczyszczanie wodorowe ROZSZERZONE (twarz + szyja)', duration: '2h 15min', price: '400' },
+      { name: 'Rytuał Kompleksowej Pielęgnacji i Relaksu', duration: '2h 10min', price: '380' },
+    ],
+  },
+  {
+    name: 'Mezoterapia mikroigłowa',
+    services: [
+      { name: 'Mezoterapia Mikroigłowa PODSTAWOWA', duration: '1h', price: '250' },
+      { name: 'Mezoterapia Mikroigłowa ROZSZERZONA', duration: '1h 30min', price: '350' },
+      { name: 'Mezoterapia mikroigłowa + PRX T33 (twarz + szyja)', duration: '30 min', price: '400' },
+      { name: 'Mezoterapia mikroigłowa + PRX T33 (twarz + szyja + dekolt)', duration: '30 min', price: '450' },
+    ],
+  },
+  {
+    name: 'Nano-needles PRO',
+    services: [
+      { name: 'Nano-needles PRO', duration: '1h 15min', price: '350' },
+    ],
   },
 ]
 </script>
@@ -39,32 +75,34 @@ const pricing = [
         Każdy zabieg jest wyjątkowym doświadczeniem — zainwestuj czas w swoje piękno i zdrowie.
       </p>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
         <div
-          v-for="(item, i) in pricing"
-          :key="item.name"
+          v-for="(cat, i) in categories"
+          :key="cat.name"
           class="pricing-card fade-up"
-          :class="{ featured: item.featured }"
-          :style="{ transitionDelay: i * 0.12 + 's' }"
+          :class="{ featured: cat.featured }"
+          :style="{ transitionDelay: i * 0.1 + 's' }"
         >
-          <div v-if="item.featured" class="badge">Popularny</div>
-          <h3 class="font-display text-[1.3rem] text-brown-deep mb-1">{{ item.name }}</h3>
-          <p class="text-sm text-brown-muted mb-5">{{ item.duration }}</p>
-          <div class="flex items-baseline gap-1 mb-6">
-            <span class="font-display font-light text-gold" style="font-size: 2.5rem;">{{ item.price }}</span>
-            <span class="text-sm text-brown-muted">PLN</span>
-          </div>
-          <ul class="flex flex-col gap-2 mb-7 flex-1">
+          <div v-if="cat.featured" class="badge">Popularny</div>
+          <h3 class="font-display text-[1.1rem] uppercase tracking-widest text-brown-deep mb-5">
+            {{ cat.name }}
+          </h3>
+
+          <ul class="flex flex-col divide-y divide-sand">
             <li
-              v-for="inc in item.includes"
-              :key="inc"
-              class="text-sm text-brown-warm pl-5 relative"
+              v-for="svc in cat.services"
+              :key="svc.name"
+              class="flex items-baseline justify-between gap-3 py-3"
             >
-              <span class="bullet"></span>
-              {{ inc }}
+              <div class="flex flex-col">
+                <span class="text-sm text-brown-warm leading-snug">{{ svc.name }}</span>
+                <span class="text-xs text-brown-muted mt-0.5">{{ svc.duration }}</span>
+              </div>
+              <span class="font-display text-gold text-lg whitespace-nowrap">{{ svc.price }} <span class="text-xs text-brown-muted font-sans">PLN</span></span>
             </li>
           </ul>
-          <a href="#kontakt" class="btn-gold block text-center">Rezerwuj</a>
+
+          <a href="#kontakt" class="btn-gold block text-center mt-6">Rezerwuj</a>
         </div>
       </div>
     </div>
@@ -73,7 +111,7 @@ const pricing = [
 
 <style scoped>
 .pricing-card {
-  @apply bg-cream rounded-xl px-7 py-9 border border-sand transition-all duration-300 relative flex flex-col;
+  @apply bg-cream rounded-xl px-7 py-8 border border-sand transition-all duration-300 relative flex flex-col;
 }
 .pricing-card.featured {
   @apply border-gold;
@@ -82,9 +120,5 @@ const pricing = [
 .badge {
   @apply absolute -top-3 left-1/2 -translate-x-1/2 bg-gold text-warm-white font-display uppercase rounded-full px-4 py-1;
   font-size: 0.75rem; letter-spacing: 2px;
-}
-.bullet {
-  @apply absolute left-0 top-2 rounded-full bg-gold-light;
-  width: 6px; height: 6px;
 }
 </style>

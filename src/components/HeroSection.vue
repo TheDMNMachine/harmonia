@@ -26,13 +26,13 @@
           <line x1="0" y1="1" x2="120" y2="1" stroke="#D4A76A" stroke-width="1"/>
         </svg>
       </div>
-      <p class="hero-subtitle">Kobido · Masaż · Relaks</p>
+      <p class="hero-subtitle">Kobido · Relaks · PIĘKNO</p>
       <p class="hero-desc">
-        Odkryj sztukę japońskiego masażu twarzy<br>
-        i odnajdź wewnętrzny spokój
+        Zatrzymaj się na moment. Poczuj kojący dotyk,<br>
+        który uwalnia napięcia i wydobywa Twoje naturalne piękno.
       </p>
       <div class="hero-cta">
-        <a href="#uslugi" class="btn-gold">Poznaj ofertę</a>
+        <a href="#uslugi" class="btn-gold">Poznaj moje rytuały</a>
       </div>
     </div>
 

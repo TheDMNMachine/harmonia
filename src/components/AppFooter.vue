@@ -13,16 +13,28 @@ const services = ['Masaż Kobido', 'Masaż relaksacyjny', 'Pielęgnacja twarzy',
         <p class="font-display tracking-[6px] text-gold mb-2" style="font-size: 1.5rem;">HARMONIA</p>
         <p class="font-display tracking-[3px] text-brown-muted mb-5" style="font-size: 0.9rem; letter-spacing: 3px;">Kobido · Masaż · Relaks</p>
         <div class="flex gap-3">
-          <a href="#" aria-label="Instagram" class="opacity-70 hover:opacity-100 transition-opacity duration-300">
+          <a href="https://www.instagram.com/harmonia.face/" target="_blank" rel="noopener" aria-label="Instagram" class="opacity-70 hover:opacity-100 transition-opacity duration-300">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <rect x="2" y="2" width="16" height="16" rx="4" stroke="#D4A76A" stroke-width="1"/>
               <circle cx="10" cy="10" r="4" stroke="#D4A76A" stroke-width="1"/>
               <circle cx="14.5" cy="5.5" r="1" fill="#D4A76A"/>
             </svg>
           </a>
-          <a href="#" aria-label="Facebook" class="opacity-70 hover:opacity-100 transition-opacity duration-300">
+          <a href="https://www.facebook.com/lovebeautygabinet" target="_blank" rel="noopener" aria-label="Facebook" class="opacity-70 hover:opacity-100 transition-opacity duration-300">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path d="M18 10C18 5.58 14.42 2 10 2C5.58 2 2 5.58 2 10C2 14 4.87 17.37 8.62 17.95V12.56H6.56V10H8.62V8.06C8.62 6.03 9.81 4.94 11.64 4.94C12.51 4.94 13.44 5.1 13.44 5.1V7.09H12.42C11.42 7.09 11.12 7.72 11.12 8.37V10H13.34L12.96 12.56H11.12V17.95C14.87 17.37 18 14 18 10Z" stroke="#D4A76A" stroke-width="1" fill="none"/>
+            </svg>
+          </a>
+          <a
+            href="https://booksy.com/pl-pl/160092_harmonia-malgorzata-kozlowska_salon-kosmetyczny_25178_tomaszow-mazowiecki#ba_s=vl_1"
+            target="_blank"
+            rel="noopener"
+            aria-label="Booksy"
+            class="opacity-70 hover:opacity-100 transition-opacity duration-300"
+          >
+            <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="40" height="40" rx="10" fill="#1FAB89"/>
+              <path d="M12 8h5v13.2c1.2-1.4 2.9-2.2 4.8-2.2 4.2 0 7.2 3.3 7.2 7.5S26 34 21.8 34c-2 0-3.8-.9-5-2.3V33.5H12V8zm5 18.5c0 2.3 1.7 4 3.9 4s3.9-1.7 3.9-4-1.7-4-3.9-4-3.9 1.7-3.9 4z" fill="white"/>
             </svg>
           </a>
         </div>
