@@ -1,7 +1,7 @@
 <script setup>
 const navLinks = ['O mnie', 'Usługi', 'Kobido', 'Cennik', 'Vouchery', 'Kontakt']
 const navIds   = ['o-mnie', 'uslugi', 'kobido', 'cennik', 'vouchery', 'kontakt']
-const services = ['Masaż Kobido', 'Masaż relaksacyjny', 'Pielęgnacja twarzy', 'Rytuał japoński']
+const services = ['Masaż Kobido', 'Masaż relaksacyjny', 'Pielęgnacja twarzy']
 </script>
 
 <template>
