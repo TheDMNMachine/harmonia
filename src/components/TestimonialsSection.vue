@@ -7,22 +7,22 @@ useScrollReveal(container)
 
 const testimonials = [
   {
-    text: 'Po pierwszym masażu Kobido moja skóra wyglądała jak po profesjonalnym zabiegu medycyny estetycznej. Jestem zachwycona wynikami!',
-    name: 'Katarzyna W.',
-    initials: 'KW',
-    role: 'Stała klientka',
+    text: 'Pani Gosia jest po prostu stworzona do tego, co robi. Jeszcze nigdy nie spotkałam się z tym, żeby czyjeś dłonie pracowały z taką uważnością, wyczuciem i świadomością ciała. Każdy ruch był przemyślany, płynny i spójny. To było ukojenie dla ciała i duszy na najwyższym poziomie. Jest w tym wszystkim dobra energia…, która zostaje z człowiekiem jeszcze długo po wyjściu.',
+    name: 'Marta K.',
+    initials: 'MK',
+    role: 'Klientka',
   },
   {
-    text: 'Rytuał japoński to absolutnie wyjątkowe doświadczenie. Małgorzata tworzy atmosferę, w której naprawdę można się odprężyć.',
-    name: 'Joanna M.',
-    initials: 'JM',
-    role: 'Klientka od 2 lat',
+    text: 'Jestem bardzo zadowolona z zabiegu, który był przeprowadzony bardzo profesjonalnie, każde etapy zabiegu były opisywane, wiem co miałam na twarzy, wiem po co itd, ale najbardziej z podejścia Pani Małgosi do klientki. Wielu rzeczy się dowiedziałam odnośnie mojego problemu z jakim przyszłam i dostałam porady dotyczące codziennej pielęgnacji skóry twarzy. Na pewno będę wracać.',
+    name: 'Hanna W.',
+    initials: 'HW',
+    role: 'Klientka',
   },
   {
-    text: 'Profesjonalizm na najwyższym poziomie. Każdy zabieg jest dopasowany indywidualnie. Polecam z całego serca!',
-    name: 'Anna S.',
-    initials: 'AS',
-    role: 'Klientka VIP',
+    text: 'Dziękuję za skuteczny masaż Kobido i cenne porady. Przyszłam spięta i zestresowana, wyszłam spokojna z rozluźnioną twarzą i wrażeniem, że policzki mam kilka centymetrów wyżej. Magia. Pozostaje «odrobić lekcje» w domu i wracać po więcej.',
+    name: 'Magdalena M.',
+    initials: 'MM',
+    role: 'Klientka',
   },
 ]
 </script>

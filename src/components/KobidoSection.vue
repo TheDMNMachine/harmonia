@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useScrollReveal } from '@/composables/useScrollReveal'
+import kobidoImg from '@/assets/kobido.jpg'
 
 const container = ref(null)
 useScrollReveal(container)
@@ -37,16 +38,7 @@ const healthEffects = [
         <!-- Visual / photo -->
         <div class="fade-up md:order-none order-first">
           <div class="rounded-lg overflow-hidden">
-            <svg viewBox="0 0 400 480" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="400" height="480" rx="8" fill="#EAD9C8"/>
-              <circle cx="200" cy="200" r="80" fill="none" stroke="#D4A76A" stroke-width="0.5" stroke-dasharray="4 4">
-                <animateTransform attributeName="transform" type="rotate"
-                  values="0 200 200;360 200 200" dur="30s" repeatCount="indefinite"/>
-              </circle>
-              <circle cx="200" cy="200" r="50" fill="none" stroke="#D4A76A" stroke-width="0.3" opacity="0.5"/>
-              <text x="200" y="360" text-anchor="middle" fill="#B8915A"
-                    font-family="Cormorant Garamond, serif" font-size="14" letter-spacing="2">ZDJĘCIE ZABIEGU</text>
-            </svg>
+            <img :src="kobidoImg" alt="Masaż Kobido" class="w-full h-full object-cover" />
           </div>
         </div>
 
